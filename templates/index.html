@@ -18,6 +18,16 @@
             --border: rgba(255, 255, 255, 0.1);
         }
 
+        body.light-mode {
+            --bg-color: #f8fafc;
+            --panel-bg: rgba(255, 255, 255, 0.9);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border: rgba(0, 0, 0, 0.1);
+            background-image: radial-gradient(circle at top right, #e2e8f0, transparent 40%),
+                              radial-gradient(circle at bottom left, #f8fafc, transparent 40%);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -166,11 +176,29 @@
         .badge-deposit { background: rgba(16, 185, 129, 0.2); color: var(--success); }
         .badge-p2p { background: rgba(59, 130, 246, 0.2); color: var(--accent); }
 
+        .theme-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .theme-btn:hover {
+            background: var(--border);
+        }
+
     </style>
 </head>
 <body>
 
-    <header>
+    <header style="position: relative;">
+        <button id="themeToggle" class="theme-btn" onclick="toggleTheme()">☀️ Modo Claro</button>
         <h1>Binance Tracker</h1>
         <p style="color: var(--text-muted); margin-top: 0.5rem;">Registro automático de movimientos via Gmail</p>
     </header>
@@ -243,6 +271,16 @@
     </div>
 
     <script>
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const btn = document.getElementById('themeToggle');
+            if (document.body.classList.contains('light-mode')) {
+                btn.innerText = '🌙 Modo Oscuro';
+            } else {
+                btn.innerText = '☀️ Modo Claro';
+            }
+        }
+
         async function syncEmails() {
             const btn = document.getElementById('syncBtn');
             const icon = document.getElementById('syncIcon');
