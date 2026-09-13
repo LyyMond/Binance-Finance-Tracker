@@ -21,6 +21,10 @@ def fetch_and_parse_emails(db_session):
                 
                 text_content = msg.text or msg.html
                 
+                tx_type = None
+                amount = 0.0
+                asset = ""
+                
                 # Parseo de Depósitos
                 # Ej: "Tu depósito de 109 USDC ya está disponible en tu cuenta de Binance."
                 deposit_match = re.search(r'Tu dep[oó]sito de\s*([\d\.,]+)\s*([A-Za-z0-9]+)\s*ya est[aá] disponible', text_content, re.IGNORECASE)
