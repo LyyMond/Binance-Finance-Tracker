@@ -34,14 +34,21 @@ def fetch_and_parse_emails(db_session):
                     amount = float(amount_str)
                     asset = deposit_match.group(2).upper()
                 
-                # Para P2P dejaremos temporalmente un bloque listo para cuando tengas el ejemplo P2P
-                elif "P2P" in msg.subject:
-                    if "Buy" in msg.subject or "comprado" in msg.subject.lower():
-                        tx_type = "P2P_BUY"
-                    else:
-                        tx_type = "P2P_SELL"
-                    asset = "USDT" # Placeholder
-                    amount = 50.0 # Placeholder
+                # Parseo de Órdenes P2P
+                # Ej: "El comprador ha marcado la orden P2P 0272 por la cantidad de 3.14 USDT como pagada."
+                elif not deposit_match:
+                    p2p_match = re.search(r'por la cantidad de\s*([\d\.,]+)\s*([A-Za-z0-9]+)', text_content, re.IGNORECASE)
+                    if p2p_match and "P2P" in text_content:
+                        amount_str = p2p_match.group(1).replace(',', '')
+                        amount = float(amount_str)
+                        asset = p2p_match.group(2).upper()
+                        
+                        # Si el correo nos pide liberar (el comprador marcó como pagado), nosotros estamos vendiendo.
+                        if "libera las criptomonedas" in msg.subject.lower() or "el comprador" in text_content.lower():
+                            tx_type = "P2P_SELL"
+                        else:
+                            # Asumimos compra si dice el vendedor ha liberado o similar
+                            tx_type = "P2P_BUY"
 
                 if tx_type:
                     new_tx = Transaction(
