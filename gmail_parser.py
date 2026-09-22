@@ -23,7 +23,7 @@ def fetch_and_parse_emails(db_session):
                     continue
                     
                 # Buscar correos de Binance
-                for msg in mailbox.fetch(AND(from_="binance"), limit=300, reverse=True):
+                for msg in mailbox.fetch(AND(from_="binance"), limit=20, reverse=True):
                     # Evitamos duplicados si el correo está en INBOX y etiquetado a la vez
                     exists = db_session.query(Transaction).filter(Transaction.email_id == msg.uid).first()
                     if exists:
