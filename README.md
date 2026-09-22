@@ -3,6 +3,9 @@
 Aplicación personal de aprendizaje que convierte los correos de Binance en un dashboard financiero local. Conecta Gmail (o cualquier servidor IMAP) vía TLS, extrae depósitos y operaciones P2P usando expresiones regulares, los persiste en SQLite y los visualiza en una UI estilo monitor construida con FastAPI.
 
 Demostración del proyecto.
+<img width="316" height="162" alt="Adobe Express - Binance tracker" src="https://github.com/user-attachments/assets/9f394363-3b2d-471d-b999-40d9e5b78db7" />
+
+
 
 
 El objetivo del proyecto es aprender a recolectar datos desde correos electrónicos (protocolo IMAP), procesarlos con regex y presentarlos en una aplicación web local.
